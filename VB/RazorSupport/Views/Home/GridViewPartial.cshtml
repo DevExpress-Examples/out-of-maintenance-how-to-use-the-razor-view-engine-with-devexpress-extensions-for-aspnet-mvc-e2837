@@ -1,0 +1,73 @@
+@using DevExpress.Web.Mvc.UI;
+@using DevExpress.Web.Mvc;
+
+@Html.DevExpress().GridView( settings => {
+    settings.Name = "dxGridView";
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartial" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    settings.Columns.Add("ShipName");
+    settings.Columns.Add("UnitPrice").PropertiesEdit.DisplayFormatString = "c";
+    settings.Columns.Add("Quantity").PropertiesEdit.DisplayFormatString = "c";
+    settings.Columns.Add("Discount").PropertiesEdit.DisplayFormatString = "c";
+    
+    settings.SetPagerBarTemplateContent(c => {
+        MVCxGridView grid = c.NamingContainer as MVCxGridView;
+        
+        DevExpressHelper.WriteLineToResponse(
+            "<div class=\"pager_template\">" +
+                "<div class=\"left\">"
+        );
+                    Html.DevExpress().Button( buttonSettings => {
+                        buttonSettings.Name = "First";
+                        buttonSettings.Text = "First";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Enabled = grid.PageIndex > 0;
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ dxGridView.GotoPage(0); }";
+                    }).Render();
+        
+                    Html.DevExpress().Button( buttonSettings => {
+                        buttonSettings.Name = "Prev";
+                        buttonSettings.Text = "Prev";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Enabled = grid.PageIndex > 0;
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ dxGridView.PrevPage(); }";
+                    }).Render();
+        
+                    DevExpressHelper.WriteLineToResponse("<label>Page:</label>");
+        
+                    Html.DevExpress().TextBox( editorSettings => {
+                        editorSettings.Name = "CurrentPage";
+                        editorSettings.ControlStyle.CssClass = "editor";
+                        editorSettings.Properties.Size = 2;
+                        editorSettings.Properties.MaskSettings.Mask = "<1.." + grid.PageCount.ToString() + ">";
+                        editorSettings.Properties.ValidationSettings.Display = DevExpress.Web.ASPxEditors.Display.None;
+                        editorSettings.Text = (grid.PageIndex + 1).ToString();
+                        editorSettings.Properties.ClientSideEvents.TextChanged = "function(s, e){ dxGridView.GotoPage(parseInt(s.GetValue()) - 1); }";
+                    }).Render();
+        
+                    DevExpressHelper.WriteLineToResponse("<label>of" + @grid.PageCount + "</label>");
+        
+                    Html.DevExpress().Button( buttonSettings => {
+                        buttonSettings.Name = "Next";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Text = "Next";
+                        buttonSettings.Enabled = grid.PageIndex < grid.PageCount - 1;
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ dxGridView.NextPage(); }";
+                    }).Render();
+        
+                    Html.DevExpress().Button( buttonSettings => {
+                        buttonSettings.Name = "Last";
+                        buttonSettings.ControlStyle.CssClass = "button";
+                        buttonSettings.Text = "Last";
+                        buttonSettings.Enabled = grid.PageIndex < grid.PageCount - 1;
+                        buttonSettings.ClientSideEvents.Click = "function(s, e){ dxGridView.GotoPage(dxGridView.GetPageCount() - 1); }";
+                    }).Render();
+        
+        DevExpressHelper.WriteLineToResponse(
+                "</div>"+
+            "</div>"
+        );
+    });
+}).Bind(Model).GetHtml()
+    
