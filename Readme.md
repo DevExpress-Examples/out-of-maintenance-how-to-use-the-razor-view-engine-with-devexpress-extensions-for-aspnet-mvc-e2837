@@ -1,8 +1,8 @@
 <!-- default file list -->
 *Files to look at*:
 
-* [HomeController.cs](./CS/RazorSupport/Controllers/HomeController.cs) (VB: [HomeController.cs](./VB/RazorSupport/Controllers/HomeController.cs))
-* [Northwind.cs](./CS/RazorSupport/Models/Northwind.cs) (VB: [Northwind.cs](./VB/RazorSupport/Models/Northwind.cs))
+* [HomeController.cs](./CS/RazorSupport/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/RazorSupport/Controllers/HomeController.vb))
+* [Northwind.cs](./CS/RazorSupport/Models/Northwind.cs) (VB: [Northwind.vb](./VB/RazorSupport/Models/Northwind.vb))
 * [_ViewStart.cshtml](./CS/RazorSupport/Views/_ViewStart.cshtml)
 * [GridView.cshtml](./CS/RazorSupport/Views/Home/GridView.cshtml)
 * [GridViewPartial.cshtml](./CS/RazorSupport/Views/Home/GridViewPartial.cshtml)
